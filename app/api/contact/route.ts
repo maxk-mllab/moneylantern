@@ -13,12 +13,18 @@ export async function POST(req: Request) {
       },
     })
 
-    await transporter.sendMail({
+    try {
+      await transporter.sendMail({
       from: email,
       to: process.env.EMAIL_USER,
       subject: `[문의] ${name}`,
       text: message,
     })
+      console.log("메일 전송 성공")
+    }catch(error){
+      console.log("메일 전송 실패:", error)
+    }
+    
 
     return NextResponse.json({ success: true })
   } catch (error) {
